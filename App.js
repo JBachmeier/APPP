@@ -17,10 +17,10 @@ export default function App() {
   const [toastshowflag, setToastshowflag] = useState(false);
   const [lat, setLat] = useState(49.4466776);
   const [lon, setLon] = useState(11.8463033);
-  const increasecords = () => {setLat(lat+0.001);
-  setLon(lon+0.001)}
-  const decreasecords = () => {setLat(lat-0.001);
-    setLon(lon-0.001)}
+  const increaselat = () => {setLat(lat+0.001);}
+  const decreaselat = () => {setLat(lat-0.001);}
+  const increaselon = () => {setLon(lon+0.001);}
+  const decreaselon = () => {setLon(lon-0.001);}
 
   function handleChange(newValue) {
     console.log(newValue);
@@ -32,8 +32,10 @@ export default function App() {
         <MenuButton/>
       <Map style={styles.map} onChange={handleChange} toastflag={toastshowflag} lat={lat} lon={lon}>
       </Map>
-      <Button title='locationchange+' onPress={increasecords}></Button>
-      <Button title='locationchange-' onPress={decreasecords}></Button>
+      <Button title='latchange+' onPress={increaselat}></Button>
+      <Button title='latchange-' onPress={decreaselat}></Button>
+      <Button title='lonchange+' onPress={increaselon}></Button>
+      <Button title='lonchange-' onPress={decreaselon}></Button>
       <Toast
         position='bottom'
         onShow={() => {

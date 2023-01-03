@@ -8,6 +8,8 @@ import { Callout } from 'react-native-maps';
 import MarkerViewField from './MarkerViewField';
 import parkhaeuser from './Parkhaus.json';
 import Toast from 'react-native-toast-message';
+import * as Speech from 'expo-speech';
+
 
 
 
@@ -40,6 +42,10 @@ export default function Map(props) {
     });
   }
   
+  const speak = (parkhaus) => {
+    const thingToSay = 'Parkhaus ' + parkhaus.name + ' in der nähe. ' + parkhaus.frei + ' Parkplätze frei';
+    Speech.speak(thingToSay);
+  };
 
   const parseString = require('react-native-xml2js').parseString;
   useEffect(() => {
@@ -79,8 +85,6 @@ export default function Map(props) {
       }, []);
 
 
-    
-  
       useEffect(() => {    
         // Get the current location
         (async () => {
@@ -92,12 +96,22 @@ export default function Map(props) {
     
           let locallocation = await Location.getCurrentPositionAsync({});
           setLocation(locallocation);
+        })();
+        // Increment the counter every time the useEffect hook runs
+      }, [counter]); // Watch the counter variable for changes
+  
+      useEffect(() => {   
+        const intervalId = setInterval(() => { 
+
           parkhausdatenfull.forEach((parkhaus) => {
+            console.log("props.lat");
+          console.log(props.lat);
             return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
 
             //return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - locallocation.coords.latitude)*(parkhaus.latitude - locallocation.coords.latitude)) + ((parkhaus.longitude - locallocation.coords.longitude)*(parkhaus.longitude - locallocation.coords.longitude)))
           })
-
+          console.log("parkhausdatenfull");
+          console.log(parkhausdatenfull);
           parkhausdatenfull.forEach((parkhaus) => {
             if(parkhaus.distanz <= 0.008){
 
@@ -111,17 +125,23 @@ export default function Map(props) {
             }
           })
           if(parkhausdatenfull.some(distCheck)){
+            const nearestPH = parkhausdatenfull.reduce((acc, curr) => {
+              return (acc.distanz < curr.distanz) ? acc : curr;
+            })
+            console.log("toastflagg");
+            console.log(toastflagg);
             if(!toastflagg){
               showToast();
               setToastflag(true);
+              speak(nearestPH);
              }
           }
           else{
             setToastflag(false);
           }
-        })();
-        // Increment the counter every time the useEffect hook runs
-      }, [counter]); // Watch the counter variable for changes
+        },100);
+        return () => clearInterval(intervalId);
+      }, [props.lat, props.lon, toastflagg])
     
       function distCheck(value){
         return value.distanzFlag;
