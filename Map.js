@@ -28,7 +28,7 @@ export default function Map(props) {
   const [PHMarker, setPHMarker] = useState(null);
   const [counter, setCounter] = useState(0);
   const [parkhausdatenfull, setParhausdatenfull] = useState([]);
-  const [parkhausdistanceflag, setParkhausdistanceflag] = useState(null);
+  const [closestPH, setClosestPH] = useState();
   const [toastflagg, setToastflag] = useState(false);
 
 
@@ -79,7 +79,9 @@ export default function Map(props) {
       }, []);
 
 
-    
+      function CalcDist(PHLat, PHLon){
+        Math.sqrt(((PHLat - props.lat)*(PHLat - props.lat)) + ((PHLon - props.lon)*(PHLon - props.lon))) 
+      }
   
       useEffect(() => {    
         // Get the current location
@@ -92,9 +94,13 @@ export default function Map(props) {
     
           let locallocation = await Location.getCurrentPositionAsync({});
           setLocation(locallocation);
+          let PrevDist = 0;
           parkhausdatenfull.forEach((parkhaus) => {
-            return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
-
+            parkhaus.distanz = CalcDist(parkhaus.latitude, parkhaus.longitude);
+            if(PrevDist > parkhaus.distanz){
+              PrevDist = parkhaus.distanz;
+              setClosestPH(parkhaus);
+            }
             //return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - locallocation.coords.latitude)*(parkhaus.latitude - locallocation.coords.latitude)) + ((parkhaus.longitude - locallocation.coords.longitude)*(parkhaus.longitude - locallocation.coords.longitude)))
           })
 
