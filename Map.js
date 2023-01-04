@@ -32,13 +32,15 @@ export default function Map(props) {
   const [parkhausdatenfull, setParhausdatenfull] = useState([]);
   const [parkhausdistanceflag, setParkhausdistanceflag] = useState(null);
   const [toastflagg, setToastflag] = useState(false);
+  const [lastNearestPH, setLastNearestPH] = useState(null);
 
 
-  const showToast = () => {
+
+  const showToast = (parkhaus) => {
     Toast.show({
       type: 'info',
-      text1: 'Freies Parhaus in der Nähe',
-      text2: 'This is some something 👋',
+      text1: parkhaus.name + ' in der Nähe',
+      text2: parkhaus.frei + ' Parkplätze frei',
     });
   }
   
@@ -86,37 +88,43 @@ export default function Map(props) {
 
 
       useEffect(() => {    
-        // Get the current location
+        let watchId;
+
         (async () => {
           let { status } = await Location.requestForegroundPermissionsAsync();
           if (status !== 'granted') {
             setErrorMsg('Permission to access location was denied');
             return;
           }
-    
-          let locallocation = await Location.getCurrentPositionAsync({});
-          setLocation(locallocation);
+          watchId = await Location.watchPositionAsync(
+            {
+              accuracy: Location.Accuracy.BestForNavigation,
+              timeInterval: 5000, // this will get the location every 5 seconds
+              distanceInterval: 0,
+            },
+            (location) => {
+              setLocation(location);
+            }
+          );
         })();
-        // Increment the counter every time the useEffect hook runs
-      }, [counter]); // Watch the counter variable for changes
-  
+
+        return () => watchId.remove();
+      }, []); 
+
       useEffect(() => {   
         const intervalId = setInterval(() => { 
 
+          console.log(parkhausdatenfull);
+
           parkhausdatenfull.forEach((parkhaus) => {
-            console.log("props.lat");
-          console.log(props.lat);
+
             return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
 
             //return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - locallocation.coords.latitude)*(parkhaus.latitude - locallocation.coords.latitude)) + ((parkhaus.longitude - locallocation.coords.longitude)*(parkhaus.longitude - locallocation.coords.longitude)))
           })
-          console.log("parkhausdatenfull");
-          console.log(parkhausdatenfull);
           parkhausdatenfull.forEach((parkhaus) => {
             if(parkhaus.distanz <= 0.008){
-
-              if(parkhaus.frei / parkhaus.gesamt >= 0.1){
-                console.log("freiesparkhaus Nah dran");
+              if((parkhaus.frei / parkhaus.gesamt) >= 0.1){
                 parkhaus.distanzFlag = true;
               }
             }
@@ -125,16 +133,22 @@ export default function Map(props) {
             }
           })
           if(parkhausdatenfull.some(distCheck)){
-            const nearestPH = parkhausdatenfull.reduce((acc, curr) => {
+            const nearPHs = parkhausdatenfull.filter(parkhaus => parkhaus.distanzFlag)
+            const nearestPH = nearPHs.reduce((acc, curr) => {
               return (acc.distanz < curr.distanz) ? acc : curr;
             })
-            console.log("toastflagg");
-            console.log(toastflagg);
+            //console.log(nearestPH);
+            if (lastNearestPH && nearestPH.distanz < lastNearestPH.distanz -0.0001) {
+              setToastflag(false);
+
+            }
             if(!toastflagg){
-              showToast();
+              showToast(nearestPH);
               setToastflag(true);
               speak(nearestPH);
              }
+             setLastNearestPH(nearestPH);
+
           }
           else{
             setToastflag(false);
