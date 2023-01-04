@@ -45,8 +45,11 @@ export default function Map(props) {
   }
   
   const speak = (parkhaus) => {
-    const thingToSay = 'Parkhaus ' + parkhaus.name + ' in der nähe. ' + parkhaus.frei + ' Parkplätze frei';
-    Speech.speak(thingToSay);
+    if(!props.TTSActive){
+      const thingToSay = 'Parkhaus ' + parkhaus.name + ' in der nähe. ' + parkhaus.frei + ' Parkplätze frei';
+      Speech.speak(thingToSay, {language: "DE"});
+    }
+    
   };
 
   const parseString = require('react-native-xml2js').parseString;
@@ -114,8 +117,6 @@ export default function Map(props) {
       useEffect(() => {   
         const intervalId = setInterval(() => { 
 
-          console.log(parkhausdatenfull);
-
           parkhausdatenfull.forEach((parkhaus) => {
 
             return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
@@ -137,7 +138,6 @@ export default function Map(props) {
             const nearestPH = nearPHs.reduce((acc, curr) => {
               return (acc.distanz < curr.distanz) ? acc : curr;
             })
-            //console.log(nearestPH);
             if (lastNearestPH && nearestPH.distanz < lastNearestPH.distanz -0.0001) {
               setToastflag(false);
 

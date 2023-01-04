@@ -1,15 +1,19 @@
 import { Button, StyleSheet, Text, View, Modal, Pressable } from 'react-native';
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity, Image, Switch } from 'react-native';
 
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 
-export default function MenuButton(props) {
+export default function OptionsButton(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [isEnabled, setIsEnabled] = useState(true);
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    props.TTSswitch(isEnabled);
+  };
 
     if(true){
         //console.log(Object.values(props.Parkhaus.Name)[0]);
@@ -34,6 +38,13 @@ export default function MenuButton(props) {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Settings</Text>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={"#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={isEnabled}
+                />
                 <Pressable
                   style={[styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}

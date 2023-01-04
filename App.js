@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import Map from './Map.js';
-import MenuButton from './MenuButton';
+import OptionsButton from './OptionsButton';
 import Toast from 'react-native-toast-message';
 
 
@@ -14,7 +14,8 @@ import Toast from 'react-native-toast-message';
 
 export default function App() {
 
-  const [toastshowflag, setToastshowflag] = useState(false);
+  const [TTSActive, setTTSActive] = useState(true);
+
   const [lat, setLat] = useState(49.4466776);
   const [lon, setLon] = useState(11.8463033);
   const increaselat = () => {setLat(lat+0.001);}
@@ -22,15 +23,15 @@ export default function App() {
   const increaselon = () => {setLon(lon+0.001);}
   const decreaselon = () => {setLon(lon-0.001);}
 
-  function handleChange(newValue) {
+  function TTSSwitched(newValue) {
     console.log(newValue);
-    setToastshowflag(newValue);
+    setTTSActive(newValue);
   }
 
   return (
     <View style={styles.container}>
-        <MenuButton/>
-      <Map style={styles.map} onChange={handleChange} toastflag={toastshowflag} lat={lat} lon={lon}>
+        <OptionsButton TTSswitch={TTSSwitched}/>
+      <Map style={styles.map} lat={lat} lon={lon} TTSActive={TTSActive}>
       </Map>
       <Button title='latchange+' onPress={increaselat}></Button>
       <Button title='latchange-' onPress={decreaselat}></Button>
