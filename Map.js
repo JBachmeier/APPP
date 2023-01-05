@@ -23,14 +23,7 @@ export default function Map(props) {
 
   
 
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [parkhausXML, setParkhausXML] = useState(null);
-  const [parkhausdaten, setParkhausdaten] = useState(null);
-  const [PHMarker, setPHMarker] = useState(null);
-  const [counter, setCounter] = useState(0);
-  const [parkhausdatenfull, setParhausdatenfull] = useState([]);
-  const [parkhausdistanceflag, setParkhausdistanceflag] = useState(null);
   const [toastflagg, setToastflag] = useState(false);
   const [lastNearestPH, setLastNearestPH] = useState(null);
 
@@ -52,78 +45,16 @@ export default function Map(props) {
     
   };
 
-  const parseString = require('react-native-xml2js').parseString;
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetch(parkhausURL)
-          .then(response => response.text())
-          .then((response) => {
-              parseString(response, function (err, result) {
-                  setParkhausXML(result);
-                  parkhaeuser.Parkhaus.forEach((ph) => {
-                    ph.gesamt = result.Daten.Parkhaus[ph.ID-1].Gesamt[0]
-                    ph.belegt = result.Daten.Parkhaus[ph.ID-1].Aktuell[0]
-                    ph.frei = result.Daten.Parkhaus[ph.ID-1].Frei[0]
-                    ph.trend = result.Daten.Parkhaus[ph.ID-1].Trend[0]
-                    ph.status = result.Daten.Parkhaus[ph.ID-1].Status[0]
-                    ph.geschlossen = result.Daten.Parkhaus[ph.ID-1].Geschlossen[0]
-                    parkhausdatenfull[ph.ID-1] = (ph)
-                    
-                  });
-                  setParkhausdaten(parkhausdatenfull);
-                   let _PHMarker = parkhausdatenfull.map((parkhaus)=>{                    
-                   return <MarkerViewField key={parkhaus.ID} Parkhaus={parkhaus}></MarkerViewField>
-                    })
-                    setPHMarker(_PHMarker)
-                  response = null;
-                  _PHMarker = null;
-                  result = null;
-              });
-          }).catch((err) => {
-              console.log('fetch', err)
-          })
-          setCounter(prevCounter => prevCounter + 1);
-
-        },1000);
-        return () => clearInterval(intervalId);
-
-      }, []);
-
-
-      useEffect(() => {    
-        let watchId;
-
-        (async () => {
-          let { status } = await Location.requestForegroundPermissionsAsync();
-          if (status !== 'granted') {
-            setErrorMsg('Permission to access location was denied');
-            return;
-          }
-          watchId = await Location.watchPositionAsync(
-            {
-              accuracy: Location.Accuracy.BestForNavigation,
-              timeInterval: 5000, // this will get the location every 5 seconds
-              distanceInterval: 0,
-            },
-            (location) => {
-              setLocation(location);
-            }
-          );
-        })();
-
-        return () => watchId.remove();
-      }, []); 
-
       useEffect(() => {   
         const intervalId = setInterval(() => { 
 
-          parkhausdatenfull.forEach((parkhaus) => {
+          props.parkhausdatenfull.forEach((parkhaus) => {
 
-            return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
+            return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
 
-            //return parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - locallocation.coords.latitude)*(parkhaus.latitude - locallocation.coords.latitude)) + ((parkhaus.longitude - locallocation.coords.longitude)*(parkhaus.longitude - locallocation.coords.longitude)))
+            //return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - locallocation.coords.latitude)*(parkhaus.latitude - locallocation.coords.latitude)) + ((parkhaus.longitude - locallocation.coords.longitude)*(parkhaus.longitude - locallocation.coords.longitude)))
           })
-          parkhausdatenfull.forEach((parkhaus) => {
+          props.parkhausdatenfull.forEach((parkhaus) => {
             if(parkhaus.distanz <= 0.008){
               if((parkhaus.frei / parkhaus.gesamt) >= 0.1){
                 parkhaus.distanzFlag = true;
@@ -133,8 +64,8 @@ export default function Map(props) {
               parkhaus.distanzFlag = false;
             }
           })
-          if(parkhausdatenfull.some(distCheck)){
-            const nearPHs = parkhausdatenfull.filter(parkhaus => parkhaus.distanzFlag)
+          if(props.parkhausdatenfull.some(distCheck)){
+            const nearPHs = props.parkhausdatenfull.filter(parkhaus => parkhaus.distanzFlag)
             const nearestPH = nearPHs.reduce((acc, curr) => {
               return (acc.distanz < curr.distanz) ? acc : curr;
             })
@@ -164,8 +95,8 @@ export default function Map(props) {
   let text = 'Waiting..';
   if (errorMsg) {
     text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
+  } else if (props.location) {
+    text = JSON.stringify(props.location);
   }
 
 if(true){
@@ -180,12 +111,12 @@ if(true){
       longitudeDelta: 0.0421,
     }}
     >
-      {location ? <Marker style={styles.marker}
+      {props.location ? <Marker style={styles.marker}
       coordinate = {{latitude:props.lat, longitude:props.lon}}
          pinColor = {"purple"} // any color
          title={"Your Location"}
          /> : null}
-    {PHMarker} 
+    {props.PHMarker} 
     </MapView>
   );
 }

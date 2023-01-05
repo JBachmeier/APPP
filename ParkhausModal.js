@@ -6,24 +6,30 @@ import { Marker } from 'react-native-maps';
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 
-export default function OptionsButton(props) {
+const trendArrow = {
+  "0": 'red',
+  '>1': 'green',
+  "-1": 'red'
+}
+
+export default function ParkhausModal(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(true);
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    props.TTSswitch(isEnabled);
-  };
 
+  let bgcolor = (props.parkhaus.frei > 0) ? '#47C847' : '#FF795C';
+
+  if(props.parkhaus.geschlossen == 1){
+    bgcolor = 'lightgrey'
+  }
     if(true){
-        //console.log(Object.values(props.Parkhaus.Name)[0]);
-        //console.log(Object.values(props.Parkhaus.Aktuell)[0]);
-        //console.log(Object.values(props.Parkhaus.Frei)[0]);
-        //console.log(props)
         return (
         <View style={styles.button}>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <Image resizeMode='contain' source={require('./icons/die-einstellungen.png')}/>
+              <View key={props.parkhaus.ID} style={[styles.containerlist, {backgroundColor: bgcolor}]}>
+              <Text style={styles.PHText}>
+                {props.parkhaus.name}
+              </Text>
+            </View>
           </TouchableOpacity>
 
               <Modal
@@ -37,16 +43,14 @@ export default function OptionsButton(props) {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Settings</Text>
-
-                <Text>Text-To-Speech</Text>
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  thumbColor={"#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch}
-                  value={isEnabled}
-                />
+                <Text style={styles.modalText}>{props.parkhaus.name}</Text>
+                <Text>Öffnungszeiten: {props.parkhaus.oeffnungszeiten}{"\n"}{"\n"}</Text>
+                <View style={styles.parkplaetze}>
+                  <Text style={styles.header}>Parkplätze</Text>
+                  <Text>Gesamt: {props.parkhaus.gesamt}</Text>
+                  <Text>Besetzt: {props.parkhaus.belegt}</Text>
+                  <Text>Frei: {props.parkhaus.frei}</Text>
+                </View>
                 <Pressable
                   style={[styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
@@ -74,15 +78,35 @@ const styles = StyleSheet.create({
       flex: 1,
       
     },
-
-    button:{
-      position: 'absolute',
-      transform: [{ scale: 0.07 }],
-      top: -210, 
-      right: -230,
-      zIndex: 1,
-      flex: 1,
+    header:{
+      fontSize:18,
     },
+    parkplaetze:{
+      textAlign: "center",
+      alignItems: "center",
+      borderRadius: 15,
+      borderColor: "#E8E8E8",
+      borderWidth: 1,
+      backgroundColor: "#E8E8E8",
+      padding: 20,
+      margin: 10,
+
+    },
+
+    containerlist:{
+      width: 200,
+      padding: 5,
+      margin: 5,
+      border: 5,
+      borderRadius: 10,
+      borderColor: "black",
+    },
+    PHText:{
+      textAlign: "center",
+    },
+
+
+
     centeredView: {
       flex: 1,
       justifyContent: "center",
@@ -119,6 +143,7 @@ const styles = StyleSheet.create({
       textAlign: "center"
     },
     modalText: {
+      fontSize:30,
       marginBottom: 15,
       textAlign: "center"
     }

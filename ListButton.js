@@ -5,25 +5,28 @@ import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
+import ParkhausModal from './ParkhausModal';
 
-export default function OptionsButton(props) {
+const trendArrow = {
+  "0": 'red',
+  '>1': 'green',
+  "-1": 'red'
+}
+
+export default function ListButton(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(true);
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    props.TTSswitch(isEnabled);
-  };
+
+  let PHListe = props.parkhausdatenfull.map((parkhaus)=>{  
+    return  <ParkhausModal parkhaus={parkhaus}/>
+     })
 
     if(true){
-        //console.log(Object.values(props.Parkhaus.Name)[0]);
-        //console.log(Object.values(props.Parkhaus.Aktuell)[0]);
-        //console.log(Object.values(props.Parkhaus.Frei)[0]);
-        //console.log(props)
+
         return (
         <View style={styles.button}>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <Image resizeMode='contain' source={require('./icons/die-einstellungen.png')}/>
+              <Image resizeMode='contain' source={require('./icons/auffuhren.png')}/>
           </TouchableOpacity>
 
               <Modal
@@ -37,16 +40,8 @@ export default function OptionsButton(props) {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Settings</Text>
-
-                <Text>Text-To-Speech</Text>
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  thumbColor={"#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch}
-                  value={isEnabled}
-                />
+                <Text style={styles.modalText}>Alle Parkhäuser</Text>
+                {PHListe}
                 <Pressable
                   style={[styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
@@ -75,11 +70,27 @@ const styles = StyleSheet.create({
       
     },
 
+    containerlist:{
+      width: 200,
+      padding: 5,
+      margin: 5,
+      border: 5,
+      borderRadius: 10,
+      borderColor: "black",
+    },
+    PHText:{
+      textAlign: "center",
+    },
+
+
+
+
+
     button:{
       position: 'absolute',
       transform: [{ scale: 0.07 }],
       top: -210, 
-      right: -230,
+      right: -180,
       zIndex: 1,
       flex: 1,
     },
