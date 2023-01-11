@@ -5,11 +5,6 @@ import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import { Callout } from 'react-native-maps';
 
-const trendColors = {
-    "0": 'green',
-    "1": 'gray',
-    "-1": 'red'
-  }
 
 export default function MarkerViewField(props) {
 
@@ -19,7 +14,7 @@ export default function MarkerViewField(props) {
         //console.log(Object.values(props.Parkhaus.Aktuell)[0]);
         //console.log(Object.values(props.Parkhaus.Frei)[0]);
         //console.log(props)
-        return (<Marker pinColor={trendColors[props.Parkhaus.trend]} coordinate={{latitude: props.Parkhaus.latitude, longitude: props.Parkhaus.longitude}}>
+        return (<Marker coordinate={{latitude: props.Parkhaus.latitude, longitude: props.Parkhaus.longitude}}>
                     <Callout>
                         <Text>{props.Parkhaus.name}</Text>
                         <Text>Momentan belegt: {props.Parkhaus.belegt}</Text>

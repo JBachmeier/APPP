@@ -18,7 +18,7 @@ export default function ListButton(props) {
   const [modalVisible, setModalVisible] = useState(false);
 
   let PHListe = props.parkhausdatenfull.map((parkhaus)=>{  
-    return  <ParkhausModal parkhaus={parkhaus}/>
+    return  <ParkhausModal key={parkhaus.ID} parkhaus={parkhaus}/>
      })
 
     if(true){

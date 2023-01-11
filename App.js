@@ -21,7 +21,6 @@ export default function App() {
   const [TTSActive, setTTSActive] = useState(false);
   const [parkhausdatenfull, setParhausdatenfull] = useState([]);
   const [parkhausXML, setParkhausXML] = useState(null);
-  const [parkhausdaten, setParkhausdaten] = useState(null);
   const [PHMarker, setPHMarker] = useState(null);
   const [location, setLocation] = useState(null);
 
@@ -79,7 +78,6 @@ export default function App() {
                     parkhausdatenfull[ph.ID-1] = (ph)
                     
                   });
-                  setParkhausdaten(parkhausdatenfull);
                    let _PHMarker = parkhausdatenfull.map((parkhaus)=>{                    
                    return <MarkerViewField key={parkhaus.ID} Parkhaus={parkhaus}></MarkerViewField>
                     })

@@ -51,8 +51,10 @@ export default function Map(props) {
           props.parkhausdatenfull.forEach((parkhaus) => {
 
             return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
-
-            //return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - locallocation.coords.latitude)*(parkhaus.latitude - locallocation.coords.latitude)) + ((parkhaus.longitude - locallocation.coords.longitude)*(parkhaus.longitude - locallocation.coords.longitude)))
+            
+            // Diesen return verwenden, wenn mit dem richtigen Standort gearbeitet werden soll
+            //return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.location.coords.latitude)*(parkhaus.latitude - props.location.coords.latitude)) +
+            // ((parkhaus.longitude - props.location.coords.longitude)*(parkhaus.longitude - props.location.coords.longitude)))
           })
           props.parkhausdatenfull.forEach((parkhaus) => {
             if(parkhaus.distanz <= 0.008){
