@@ -139,7 +139,7 @@ export default function App() {
               setParkhausdatenfull(getData("Parkhaeuser"))
           })
 
-        },1000);
+        },2500);
         return () => clearInterval(intervalId);
 
       }, []);
