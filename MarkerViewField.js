@@ -14,14 +14,30 @@ export default function MarkerViewField(props) {
         //console.log(Object.values(props.Parkhaus.Aktuell)[0]);
         //console.log(Object.values(props.Parkhaus.Frei)[0]);
         //console.log(props)
-        return (<Marker coordinate={{latitude: props.Parkhaus.latitude, longitude: props.Parkhaus.longitude}}>
+        let output;
+        props.Parkhaus.favorite ? (
+            output = <Marker coordinate={{latitude: props.Parkhaus.latitude, longitude: props.Parkhaus.longitude}} image={require('./icons/FavoritePinKlein.png')}>
                     <Callout>
                         <Text>{props.Parkhaus.name}</Text>
                         <Text>Momentan belegt: {props.Parkhaus.belegt}</Text>
                         <Text>Momentan frei: {props.Parkhaus.frei}</Text>
                     </Callout>
               </Marker>
+            
+            )
+          :
+          (
+            output = (<Marker coordinate={{latitude: props.Parkhaus.latitude, longitude: props.Parkhaus.longitude}} image={require('./icons/PinKlein.png')}>
+                        <Callout>
+                            <Text>{props.Parkhaus.name}</Text>
+                            <Text>Momentan belegt: {props.Parkhaus.belegt}</Text>
+                            <Text>Momentan frei: {props.Parkhaus.frei}</Text>
+                        </Callout>
+                  </Marker>
+              )
           )
+        
+        return (output)
         }
 
         

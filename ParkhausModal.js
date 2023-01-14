@@ -5,32 +5,54 @@ import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
+import { Icon } from '@rneui/themed';
 
-const trendArrow = {
-  "0": 'red',
-  '>1': 'green',
-  "-1": 'red'
-}
 
 export default function ParkhausModal(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  let bgcolor = (props.parkhaus.frei > 0) ? '#47C847' : '#FF795C';
+  let bgcolor = ((props.parkhaus.frei / props.parkhaus.gesamt) >= 0.1) ? '#47C847' : '#FF795C';
+
+  function favChanged() {
+    props.parkhaus.favorite = !props.parkhaus.favorite;
+    console.log(props.parkhaus.name);
+    console.log(props.parkhaus.favorite);
+    
+    props.refreshPH();
+  }
 
   if(props.parkhaus.geschlossen == 1){
     bgcolor = 'lightgrey'
   }
     if(true){
         return (
-        <View style={styles.button}>
+        <View style={[styles.button]}>
+          {props.parkhaus.favorite ?
           <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <View key={props.parkhaus.ID} style={[styles.containerlist, {backgroundColor: bgcolor, flexDirection: 'row', alignItems: 'center'}]}>
+              <Icon style={{paddingLeft:25}}/>
+
+                <Text style={[styles.PHTextFav]}>
+                    {props.parkhaus.name}
+                    
+
+                </Text>
+                <Icon name='heart' color='#FF83EE' type='font-awesome'/>
+              </View>
+              </TouchableOpacity>
+
+              : 
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
               <View key={props.parkhaus.ID} style={[styles.containerlist, {backgroundColor: bgcolor}]}>
-              <Text style={styles.PHText}>
-                {props.parkhaus.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
+                <Text style={styles.PHText}>
+                    {props.parkhaus.name}
+                </Text>
+              </View>
+              </TouchableOpacity>
+
+              }
+            
 
               <Modal
             animationType="slide"
@@ -43,8 +65,20 @@ export default function ParkhausModal(props) {
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>{props.parkhaus.name}</Text>
-                <Text>Öffnungszeiten: {props.parkhaus.oeffnungszeiten}{"\n"}{"\n"}</Text>
+              <Text style={styles.modalText}>{props.parkhaus.name}</Text>
+
+                <View style={styles.fav}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                      favChanged();
+                    }}
+                  >
+                    <Icon name='heart' color={props.parkhaus.favorite? '#FF83EE' : 'black'} type='font-awesome'/>
+                  </TouchableOpacity>
+                </View>
+                <Text>Öffnungszeiten: {props.parkhaus.oeffnungszeiten}{"\n"}</Text>
+                <Text>{props.parkhaus.gebühren}{"\n"}{"\n"}</Text>
                 <View style={styles.parkplaetze}>
                   <Text style={styles.header}>Parkplätze</Text>
                   <Text>Gesamt: {props.parkhaus.gesamt}</Text>
@@ -81,6 +115,12 @@ const styles = StyleSheet.create({
     header:{
       fontSize:18,
     },
+    fav:{
+      position: "absolute",
+      top:0,
+      right:0,
+      padding: 10
+    },
     parkplaetze:{
       textAlign: "center",
       alignItems: "center",
@@ -100,8 +140,13 @@ const styles = StyleSheet.create({
       border: 5,
       borderRadius: 10,
       borderColor: "black",
+      justifyContent: "space-around",
+
     },
     PHText:{
+      textAlign: "center",
+    },
+    PHTextFav:{
       textAlign: "center",
     },
 

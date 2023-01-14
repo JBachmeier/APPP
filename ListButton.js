@@ -6,19 +6,22 @@ import { Marker } from 'react-native-maps';
 import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 import ParkhausModal from './ParkhausModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const trendArrow = {
-  "0": 'red',
-  '>1': 'green',
-  "-1": 'red'
-}
 
 export default function ListButton(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  let PHListe = props.parkhausdatenfull.map((parkhaus)=>{  
-    return  <ParkhausModal key={parkhaus.ID} parkhaus={parkhaus}/>
+  async function refreshPH(){
+    await props.saveData("Parkhaeuser",props.parkhausdatenfull);
+  }
+
+  let PHFavs = props.parkhausdatenfull.filter(fav => fav.favorite).map((parkhaus) =>{
+    return  <ParkhausModal key={parkhaus.ID} parkhaus={parkhaus} refreshPH={refreshPH}/>
+  })
+  let PHNonFavs = props.parkhausdatenfull.filter(fav => !fav.favorite).map((parkhaus) =>{
+    return  <ParkhausModal key={parkhaus.ID} parkhaus={parkhaus} refreshPH={refreshPH}/>
      })
 
     if(true){
@@ -41,7 +44,8 @@ export default function ListButton(props) {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Alle Parkhäuser</Text>
-                {PHListe}
+                {PHFavs}
+                {PHNonFavs}
                 <Pressable
                   style={[styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     button:{
       position: 'absolute',
       transform: [{ scale: 0.07 }],
-      top: -210, 
+      top: -200, 
       right: -180,
       zIndex: 1,
       flex: 1,

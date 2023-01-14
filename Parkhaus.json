@@ -5,12 +5,17 @@
         "latitude": 49.44169107096248,
         "longitude": 11.859986606564314,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "An der nächsten Kreuzung in den Schießstätteweg abbiegen. Nach 100 Metern haben sie Ihr Ziel erreicht",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": ""
     },
     {
         "ID": "2",
@@ -18,12 +23,17 @@
         "latitude": 49.446434365482475,
         "longitude": 11.85482277682796,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "An der nächsten Kreuzung in die Mühlgasse einbiegen. In 300 Metern haben Sie ihr Ziel erreicht",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": "Gebühren: \n1 Stunde - 1,00 Euro \n2 Stunden - 1,50 Euro \n3 Stunden - 2,00 Euro \n4 Stunden - 2,50 Euro \n5 Stunden - 3,00 Euro \n6 Stunden - 3,50 Euro \n7 bis 9 Stunden - 4,00 Euro \nvon 23 bis 7 Uhr gebührenfrei"
     },
     {
         "ID": "3",
@@ -31,12 +41,17 @@
         "latitude": 49.448592518330216,
         "longitude": 11.853028955538466,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "An der nächsten Kreuzung in die Sulzbacher Straße einbiegen und dann gleich Rechts abbiegen",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren" : "Gebührenpflichtig werktags von 8 bis 18 Uhr \nFür Elektrofahrzeuge mit E-Kennzeichen kostenfrei! \n\naltstadtnaher Bereich (Außenparkplätze): 5 Stunden parken mit Parkschein \n1 Stunde 0,50 Euro \n5 Stunden 1 Euro \n\nhinterer Bereich (Parkdeck): gebührenpflichtige Dauerparkplätze \n1 Stunde 0,50 Euro \n5 Stunden 1 Euro \nganzer Tag 2 Euro \nMonatsticket 15 Euro \nJahresticket 120 Euro"
     },
     {
         "ID": "4",
@@ -44,12 +59,17 @@
         "latitude": 49.448539701069954,
         "longitude": 11.856600497414732,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "An der nächsten Kreuzung bitte Wenden, dann gleich rechts abbiegen, und sie haben ihr Ziel erreicht",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": "Parken tagsüber \n - 8 bis 19 Uhr \n- Erste Stunde: 1,00 € \n- jede weitere angefangene Stunde: 0,50 € \n- maximal tagsüber: 5,00 € \n \n Parken nachts von 19 bis 8 Uhr \n- Erste Stunde: 0,50 \n- jede weitere angefangene Stunde: 0,50 € \n- maximal nachts: 1,50 \n\nMaximal-Preis für 24 Stunden: 6,50€"
     },
     {
         "ID": "5",
@@ -57,12 +77,17 @@
         "latitude": 49.44173061798284,
         "longitude": 11.858032506269334,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "An der nächsten Kreuzung in Am Anschuß abbiegen und sie haben ihr Ziel erreicht",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": "Parken tagsüber \n- 8 bis 19 Uhr \n- Erste Stunde: 1,00 € \n- jede weitere angefangene Stunde: 0,50 € \n- maximal tagsüber: 5,00 € \n \nParken nachts von 19 bis 8 Uhr \n- Erste Stunde: 0,50 \n- jede weitere angefangene Stunde: 0,50 € \n- maximal nachts: 1,50 \n\nMaximal-Preis für 24 Stunden: 6,50€ \n- Für Besucher des Kurfürstenbades ist das Parken kostenfrei!"
     },
     {
         "ID": "6",
@@ -70,12 +95,17 @@
         "latitude": 49.44464453954624,
         "longitude": 11.865120948480677,
         "oeffnungszeiten": "-",
+        "wegbeschreibung": "Dem Kaiser-Ludwig-Ring 500 Meter folgen, dann Links abbiegen und sie haben ihr Ziel erreicht",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": ""
     },
     {
         "ID": "7",
@@ -83,12 +113,17 @@
         "latitude": 49.440839551889454,
         "longitude": 11.860935343571217,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "An der nächsten Kreuzung in den Schießstätteweg abbiegen und der Straße bis zu ihrem Ziel folgen",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": ""
     },
     {
         "ID": "8",
@@ -96,12 +131,17 @@
         "latitude": 49.44734724503339,
         "longitude": 11.861764294751142,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "Sie haben ihr Ziel erreicht",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": "Gebühren: \n30 Minuten - 0,50 Euro \n1 Stunde - 1,00 Euro \n2 Stunden - 1,50 Euro \n3 Stunden - 1,80 Euro \n4 Stunden - 2,10 Euro \n5 Stunden - 2,30 Euro \n6 Stunden - 2,60 Euro \n7 Stunden - 2,80 Euro \n8 Stunden - 3,10 Euro \n9 Stunden - 3,30 Euro \n10 bis 24 Stunden - 3,60 Euro \n20:30 bis 7 Uhr - 0,30 Euro pro Stunde"
     },
     {
         "ID": "9",
@@ -109,12 +149,17 @@
         "latitude": 49.44440657667481,
         "longitude": 11.866457683942192,
         "oeffnungszeiten": "täglich von 0 bis 24 Uhr",
+        "wegbeschreibung": "An der nächsten Kreuzung in den Mariahilfbergweg abbiegen. Dann am Kreisverkehr die erste Ausfahrt nehmen.",
         "gesamt": "",
         "belegt": "",
         "frei": "",
         "trend": "",
         "status": "",
-        "geschlossen": ""
+        "geschlossen": "",
+        "distanz": 1,
+        "distanzFlag": false,
+        "favorit": false,
+        "gebühren": "Gebühren: \npro Stunde: 1,50 € \nmaximal 10 Euro am Tag"
     }
 ]
 }

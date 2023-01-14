@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     button:{
       position: 'absolute',
       transform: [{ scale: 0.07 }],
-      top: -210, 
+      top: -200, 
       right: -230,
       zIndex: 1,
       flex: 1,

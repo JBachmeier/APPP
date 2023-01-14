@@ -10,14 +10,7 @@ import parkhaeuser from './Parkhaus.json';
 import Toast from 'react-native-toast-message';
 import * as Speech from 'expo-speech';
 
-
-
-
-//import AsyncStorage from '@react-native-async-storage/async-storage';
-
 var parkhausURL = 'https://parken.amberg.de/wp-content/uploads/pls/pls.xml';
-
-
 
 export default function Map(props) {
 
@@ -39,7 +32,7 @@ export default function Map(props) {
   
   const speak = (parkhaus) => {
     if(!props.TTSActive){
-      const thingToSay = 'Parkhaus ' + parkhaus.name + ' in der nähe. ' + parkhaus.frei + ' Parkplätze frei';
+      const thingToSay = 'Parkhaus ' + parkhaus.name + ' in der nähe. ' + parkhaus.frei + ' Parkplätze frei. ' + parkhaus.wegbeschreibung;
       Speech.speak(thingToSay, {language: "DE"});
     }
     
@@ -57,7 +50,7 @@ export default function Map(props) {
             // ((parkhaus.longitude - props.location.coords.longitude)*(parkhaus.longitude - props.location.coords.longitude)))
           })
           props.parkhausdatenfull.forEach((parkhaus) => {
-            if(parkhaus.distanz <= 0.008){
+            if(parkhaus.distanz <= 0.006){
               if((parkhaus.frei / parkhaus.gesamt) >= 0.1){
                 parkhaus.distanzFlag = true;
               }
@@ -135,7 +128,7 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
     width: '100%',
-    height: '90%',
+    height: '100%',
   },
   marker:{
     position: 'absolute',
