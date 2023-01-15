@@ -75,7 +75,9 @@ export default function App() {
   }, []); 
 
   async function setPHData(result){
-    if(parkhausdatenfull == null){
+    let phdtemp = await getData("Parkhaeuser");
+
+    if(phdtemp == null){
       parkhaeuser.Parkhaus.forEach((ph) => {
         ph.gesamt = result.Daten.Parkhaus[ph.ID-1].Gesamt[0]
         ph.belegt = result.Daten.Parkhaus[ph.ID-1].Aktuell[0]
@@ -87,7 +89,6 @@ export default function App() {
       });
     }
     else{
-      let phdtemp = await getData("Parkhaeuser");
       phdtemp.forEach((ph) => {
         ph.gesamt = result.Daten.Parkhaus[ph.ID-1].Gesamt[0]
         ph.belegt = result.Daten.Parkhaus[ph.ID-1].Aktuell[0]
