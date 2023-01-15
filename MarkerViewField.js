@@ -1,19 +1,12 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
-import MapView from 'react-native-maps';
+import { Text } from 'react-native';
 import { Marker } from 'react-native-maps';
-import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
+import React from 'react';
 import { Callout } from 'react-native-maps';
 
 
 export default function MarkerViewField(props) {
 
 
-    if(true){
-        //console.log(Object.values(props.Parkhaus.Name)[0]);
-        //console.log(Object.values(props.Parkhaus.Aktuell)[0]);
-        //console.log(Object.values(props.Parkhaus.Frei)[0]);
-        //console.log(props)
         let output;
         props.Parkhaus.favorite ? (
             output = <Marker coordinate={{latitude: props.Parkhaus.latitude, longitude: props.Parkhaus.longitude}} image={require('./icons/FavoritePinKlein.png')}>
@@ -38,7 +31,4 @@ export default function MarkerViewField(props) {
           )
         
         return (output)
-        }
-
-        
 }

@@ -1,25 +1,16 @@
-import { Button, StyleSheet, Text, View, Modal, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Modal, Pressable } from 'react-native';
 import { TouchableOpacity, Image, Switch } from 'react-native';
-
-import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
-import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
+import React, { useState } from 'react';
 
 export default function OptionsButton(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(true);
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
     props.TTSswitch(isEnabled);
   };
-
-    if(true){
-        //console.log(Object.values(props.Parkhaus.Name)[0]);
-        //console.log(Object.values(props.Parkhaus.Aktuell)[0]);
-        //console.log(Object.values(props.Parkhaus.Frei)[0]);
-        //console.log(props)
         return (
         <View style={styles.button}>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -61,8 +52,6 @@ export default function OptionsButton(props) {
           )
         }
 
-        
-}
 
 const styles = StyleSheet.create({
     touchable:{

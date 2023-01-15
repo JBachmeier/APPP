@@ -1,16 +1,8 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
-import * as Location from 'expo-location';
 import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
-import XMLParser from 'react-native-xml2js';
-import { Callout } from 'react-native-maps';
-import MarkerViewField from './MarkerViewField';
-import parkhaeuser from './Parkhaus.json';
 import Toast from 'react-native-toast-message';
 import * as Speech from 'expo-speech';
-
-var parkhausURL = 'https://parken.amberg.de/wp-content/uploads/pls/pls.xml';
 
 export default function Map(props) {
 
@@ -43,22 +35,21 @@ export default function Map(props) {
 
           props.parkhausdatenfull.forEach((parkhaus) => {
 
-            return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
-            
-            // Diesen return verwenden, wenn mit dem richtigen Standort gearbeitet werden soll
-            //return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.location.coords.latitude)*(parkhaus.latitude - props.location.coords.latitude)) +
-            // ((parkhaus.longitude - props.location.coords.longitude)*(parkhaus.longitude - props.location.coords.longitude)))
-          })
-          props.parkhausdatenfull.forEach((parkhaus) => {
+            parkhaus.distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
             if(parkhaus.distanz <= 0.006){
-              if((parkhaus.frei / parkhaus.gesamt) >= 0.1){
+              if((parkhaus.frei / parkhaus.gesamt) >= 0.05){
                 parkhaus.distanzFlag = true;
               }
             }
             else{
               parkhaus.distanzFlag = false;
             }
+
+            // Diesen return verwenden, wenn mit dem richtigen Standort gearbeitet werden soll
+            //return props.parkhausdatenfull[parkhaus.ID-1].distanz = Math.sqrt(((parkhaus.latitude - props.location.coords.latitude)*(parkhaus.latitude - props.location.coords.latitude)) +
+            // ((parkhaus.longitude - props.location.coords.longitude)*(parkhaus.longitude - props.location.coords.longitude)))
           })
+
           if(props.parkhausdatenfull.some(distCheck)){
             const nearPHs = props.parkhausdatenfull.filter(parkhaus => parkhaus.distanzFlag)
             const nearestPH = nearPHs.reduce((acc, curr) => {
@@ -94,8 +85,6 @@ export default function Map(props) {
     text = JSON.stringify(props.location);
   }
 
-if(true){
-
   return (
     <MapView
     style={styles.map}
@@ -108,13 +97,12 @@ if(true){
     >
       {props.location ? <Marker style={styles.marker}
       coordinate = {{latitude:props.lat, longitude:props.lon}}
-         pinColor = {"purple"} // any color
+         pinColor = {"red"}
          title={"Your Location"}
          /> : null}
     {props.PHMarker} 
     </MapView>
   );
-}
 }
 
 

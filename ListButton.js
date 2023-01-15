@@ -1,12 +1,7 @@
-import { Button, StyleSheet, Text, View, Modal, Pressable } from 'react-native';
-import { TouchableOpacity, Image, Switch } from 'react-native';
-
-import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
-import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
+import { StyleSheet, Text, View, Modal, Pressable } from 'react-native';
+import { TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
 import ParkhausModal from './ParkhausModal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function ListButton(props) {
@@ -23,8 +18,6 @@ export default function ListButton(props) {
   let PHNonFavs = props.parkhausdatenfull.filter(fav => !fav.favorite).map((parkhaus) =>{
     return  <ParkhausModal key={parkhaus.ID} parkhaus={parkhaus} refreshPH={refreshPH}/>
      })
-
-    if(true){
 
         return (
         <View style={styles.button}>
@@ -58,10 +51,9 @@ export default function ListButton(props) {
         </View>
         
           )
-        }
-
-        
 }
+
+
 
 const styles = StyleSheet.create({
     touchable:{

@@ -1,10 +1,6 @@
-import { Button, StyleSheet, Text, View, Modal, Pressable } from 'react-native';
-import { TouchableOpacity, Image, Switch } from 'react-native';
-
-import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
-import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
+import { StyleSheet, Text, View, Modal, Pressable } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { Icon } from '@rneui/themed';
 
 
@@ -12,7 +8,7 @@ export default function ParkhausModal(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  let bgcolor = ((props.parkhaus.frei / props.parkhaus.gesamt) >= 0.1) ? '#47C847' : '#FF795C';
+  let bgcolor = ((props.parkhaus.frei / props.parkhaus.gesamt) >= 0.05) ? '#47C847' : '#FF795C';
 
   function favChanged() {
     props.parkhaus.favorite = !props.parkhaus.favorite;
@@ -25,7 +21,6 @@ export default function ParkhausModal(props) {
   if(props.parkhaus.geschlossen == 1){
     bgcolor = 'lightgrey'
   }
-    if(true){
         return (
         <View style={[styles.button]}>
           {props.parkhaus.favorite ?
@@ -97,10 +92,8 @@ export default function ParkhausModal(props) {
         </View>
         
           )
-        }
-
-        
 }
+
 
 const styles = StyleSheet.create({
     touchable:{

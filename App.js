@@ -1,10 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TouchableOpacity, Image } from 'react-native';
-import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
 import Map from './Map.js';
 import OptionsButton from './OptionsButton';
 import ListButton from './ListButton';
@@ -12,7 +8,6 @@ import Toast from 'react-native-toast-message';
 import parkhaeuser from './Parkhaus.json';
 import MarkerViewField from './MarkerViewField';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { color } from '@rneui/base';
 
 
 
@@ -171,11 +166,6 @@ export default function App() {
     </View>
   );
 }
-
-/*<Button style={styles.Coordsbutton} title='lat +' onPress={increaselat}></Button>
-      <Button style={styles.Coordsbutton} title='lat -' onPress={decreaselat}></Button>
-      <Button style={styles.Coordsbutton} title='lon +' onPress={increaselon}></Button>
-      <Button style={styles.Coordsbutton} title='lon -' onPress={decreaselon}></Button>*/
 
 //<a href="https://www.flaticon.com/free-icons/parking" title="parking icons">Parking icons created by Freepik - Flaticon</a>
 
