@@ -23,7 +23,6 @@ export default function App() {
 
   const [TTSActive, setTTSActive] = useState(false);
   const [parkhausdatenfull, setParkhausdatenfull] = useState([]);
-  const [parkhausXML, setParkhausXML] = useState(null);
   const [PHMarker, setPHMarker] = useState(null);
   const [location, setLocation] = useState(null);
 
@@ -53,7 +52,6 @@ export default function App() {
   }
 
   function TTSSwitched(newValue) {
-    console.log(newValue);
     setTTSActive(newValue);
   }
 
@@ -82,7 +80,6 @@ export default function App() {
   }, []); 
 
   async function setPHData(result){
-    setParkhausXML(result);
     if(parkhausdatenfull == null){
       parkhaeuser.Parkhaus.forEach((ph) => {
         ph.gesamt = result.Daten.Parkhaus[ph.ID-1].Gesamt[0]
@@ -125,6 +122,11 @@ export default function App() {
     result = null;
   }
 
+  async function getPHData(){
+    let phdtemp = await getData("Parkhaeuser");
+    setParkhausdatenfull(phdtemp);
+  }
+
   const parseString = require('react-native-xml2js').parseString;
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -135,8 +137,8 @@ export default function App() {
                 setPHData(result);
               });
           }).catch((err) => {
-              console.log('fetch', err)
-              setParkhausdatenfull(getData("Parkhaeuser"))
+              console.log('fetch', err);
+              getPHData();
           })
 
         },2500);
