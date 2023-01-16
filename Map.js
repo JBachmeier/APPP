@@ -14,6 +14,7 @@ export default function Map(props) {
 
 
 
+  // Zeigt den Toast an, mit den entsprechenden Daten
   const showToast = (parkhaus) => {
     Toast.show({
       type: 'info',
@@ -22,6 +23,7 @@ export default function Map(props) {
     });
   }
   
+  // Liest die nachricht, wenn aktiviert, laut vor
   const speak = (parkhaus) => {
     if(!props.TTSActive){
       const thingToSay = 'Parkhaus ' + parkhaus.name + ' in der nähe. ' + parkhaus.frei + ' Parkplätze frei. ' + parkhaus.wegbeschreibung;
@@ -34,8 +36,9 @@ export default function Map(props) {
         const intervalId = setInterval(() => { 
 
           props.parkhausdatenfull.forEach((parkhaus) => {
-
+            // Zuerst wird für jedes Parkhaus die Distanz berechnet
             parkhaus.distanz = Math.sqrt(((parkhaus.latitude - props.lat)*(parkhaus.latitude - props.lat)) + ((parkhaus.longitude - props.lon)*(parkhaus.longitude - props.lon)))
+            // Wenn die Distanz klein genug ist, und genügen Parkplätze frei sind, wird distanzFlag true gesetzt
             if(parkhaus.distanz <= 0.006){
               if((parkhaus.frei / parkhaus.gesamt) >= 0.05){
                 parkhaus.distanzFlag = true;
@@ -50,21 +53,25 @@ export default function Map(props) {
             // ((parkhaus.longitude - props.location.coords.longitude)*(parkhaus.longitude - props.location.coords.longitude)))
           })
 
+          // Danach wird geprüft, ob ein Parkhaus diese kriterien erfüllt
           if(props.parkhausdatenfull.some(distCheck)){
+            // falls ja, wird das näheste Parkhaus berechnet
             const nearPHs = props.parkhausdatenfull.filter(parkhaus => parkhaus.distanzFlag)
             const nearestPH = nearPHs.reduce((acc, curr) => {
               return (acc.distanz < curr.distanz) ? acc : curr;
             })
+            // falls das näheste Parkhaus näher ist als das letzte, wird der ToasFlag false gesetzt
             if (lastNearestPH && nearestPH.distanz < lastNearestPH.distanz -0.0001) {
               setToastflag(false);
-
             }
+            // Bei false ToastFlag, wird ein neuer Toast angezeigt und die Flag auf true gesetzt
             if(!toastflagg){
               showToast(nearestPH);
               setToastflag(true);
               speak(nearestPH);
-             }
-             setLastNearestPH(nearestPH);
+            }
+            // dann wird das letzte näheste Parkhaus gesetzt
+            setLastNearestPH(nearestPH);
 
           }
           else{

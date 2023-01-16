@@ -8,13 +8,12 @@ export default function ParkhausModal(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  // Setzt die Hintergrundfarbe abhängig der Parkhausfüllmenge
   let bgcolor = ((props.parkhaus.frei / props.parkhaus.gesamt) >= 0.05) ? '#47C847' : '#FF795C';
 
+  // Hier ist die gleiche art Funktion wie beim OptionsButton mit den Props
   function favChanged() {
     props.parkhaus.favorite = !props.parkhaus.favorite;
-    console.log(props.parkhaus.name);
-    console.log(props.parkhaus.favorite);
-    
     props.refreshPH();
   }
 

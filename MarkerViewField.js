@@ -7,6 +7,7 @@ import { Callout } from 'react-native-maps';
 export default function MarkerViewField(props) {
 
 
+        // abängig davon, ob das Parkhaus favorisiert ist, wird ein anderes Bild für den Marker verwendet.
         let output;
         props.Parkhaus.favorite ? (
             output = <Marker coordinate={{latitude: props.Parkhaus.latitude, longitude: props.Parkhaus.longitude}} image={require('./icons/FavoritePinKlein.png')}>

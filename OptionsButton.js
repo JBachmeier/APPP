@@ -7,6 +7,7 @@ export default function OptionsButton(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEnabled, setIsEnabled] = useState(true);
 
+  // Wechselt den TTS Status und ruft die Prop funktion in App.js auf.
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
     props.TTSswitch(isEnabled);

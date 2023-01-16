@@ -8,10 +8,12 @@ export default function ListButton(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  // ruft die AsyncStorage speicher-Funktion auf, da sich die Favorisierung geändert hat.
   async function refreshPH(){
     await props.saveData("Parkhaeuser",props.parkhausdatenfull);
   }
 
+  // Hier wird unterschieden zwischen favorisierten und normalen Parkhäusern
   let PHFavs = props.parkhausdatenfull.filter(fav => fav.favorite).map((parkhaus) =>{
     return  <ParkhausModal key={parkhaus.ID} parkhaus={parkhaus} refreshPH={refreshPH}/>
   })
@@ -37,6 +39,8 @@ export default function ListButton(props) {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Alle Parkhäuser</Text>
+                {// Die Favoriten werden als erstes gerendert, um diese oben in der Liste anzeigen zu lassen.
+                }
                 {PHFavs}
                 {PHNonFavs}
                 <Pressable

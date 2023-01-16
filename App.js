@@ -46,10 +46,14 @@ export default function App() {
     }
   }
 
+  // Diese Funktion ändert den Aktivierungsstatus der TTS Funktion.
+  // Sie wird als Prop an den OptionsButton weitergegeben, damit dieser sie dort nach belieben mit dem korrekten Parameter aufrufen kann.
+  // Die wird so geregelt, damit die Map.js TTSActive variable als Prop haben kann, um dort die TTS funktion zu deaktivieren.
   function TTSSwitched(newValue) {
     setTTSActive(newValue);
   }
 
+  // Holt sich die momentanen Koodrinaten des Nutzers (diese Daten werden momentan nicht verwendet um die App testen zu können)
   useEffect(() => {    
     let watchId;
 
@@ -74,6 +78,8 @@ export default function App() {
     return () => watchId.remove();
   }, []); 
 
+  // Holt sich die letzten gespeicherten Daten aus dem AsyncStorage. Falls diese leer sind wird parkhausdatenfull zum ersten mal gefüllt.
+  // dabei werden die Daten aus dem Parkhaus.JSON verwendet
   async function setPHData(result){
     let phdtemp = await getData("Parkhaeuser");
 
@@ -88,6 +94,7 @@ export default function App() {
         parkhausdatenfull[ph.ID-1] = (ph)              
       });
     }
+    // Wenn im AsyncStorage bereits etwas gespeichert ist, werden diese Daten aktualisiert
     else{
       phdtemp.forEach((ph) => {
         ph.gesamt = result.Daten.Parkhaus[ph.ID-1].Gesamt[0]
@@ -98,6 +105,7 @@ export default function App() {
         ph.geschlossen = result.Daten.Parkhaus[ph.ID-1].Geschlossen[0]
         parkhausdatenfull[ph.ID-1] = (ph)  
       });
+      // Das ist dennoch nötig, falls sich dei Parkhaus.JSON aktualisiert hat.
       parkhaeuser.Parkhaus.forEach((ph) => {
         parkhausdatenfull[ph.ID-1].ID = ph.ID;
         parkhausdatenfull[ph.ID-1].name = ph.name;
@@ -108,8 +116,9 @@ export default function App() {
         parkhausdatenfull[ph.ID-1].gebühren = ph.gebühren;
       });
     }
+    // Dann werden die Daten wieder gespeichert.
     await saveData("Parkhaeuser", parkhausdatenfull);
-    let PHMakerFavs = parkhausdatenfull.filter(fav => fav.favorite);
+    // die parkhausdaten werden als MarkerViewField gemapped und jedem Marker wird das jeweilige Parkhaus als Prop weitergegeben
     let _PHMarker = parkhausdatenfull.map((parkhaus)=>{                    
       return <MarkerViewField key={parkhaus.ID} Parkhaus={parkhaus}></MarkerViewField>
     })
@@ -118,12 +127,17 @@ export default function App() {
     result = null;
   }
 
+  // Holt sich die letzten gespeicherten Daten aus dem AsyncStorage
   async function getPHData(){
     let phdtemp = await getData("Parkhaeuser");
     setParkhausdatenfull(phdtemp);
   }
 
   const parseString = require('react-native-xml2js').parseString;
+
+  // Holt sich die Aktuellen Daten der Parkäuser. 
+  // Ruft die Async-Funktion setPHData auf, wenn eine Internetverbindung vorhanden ist.
+  // Ruft die Async-Funktion getPHData auf, wenn keine Internetverbindung vorhanden ist.
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetch(parkhausURL)
@@ -148,6 +162,9 @@ export default function App() {
         <ListButton style={styles.button} parkhausdatenfull={parkhausdatenfull} saveData={saveData}/>
       <Map style={styles.map} lat={lat} lon={lon} TTSActive={TTSActive} PHMarker={PHMarker} parkhausdatenfull={parkhausdatenfull} location={location}>
       </Map>
+
+      {// diese Buttons ändern die Koordinaten des Nutzers
+      }
       <TouchableOpacity style={[styles.Coordsbutton, {left: 10}, {bottom: 80}]} onPress={() => increaselat()}>
         <Text>lat +</Text>
       </TouchableOpacity>
